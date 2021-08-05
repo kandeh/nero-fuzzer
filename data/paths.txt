@@ -1,0 +1,6 @@
+/swagger
+/admin
+/admin/login
+/metrics
+/v2/swagger.json
+/admin/account/user/

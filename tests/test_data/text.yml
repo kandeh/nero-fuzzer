@@ -1,0 +1,14 @@
+---
+email: test@test.test
+users: 
+  - test2@test.test
+  - email: test3@test.test
+  - uuid: 4b377996-f5d0-11eb-9a03-0242ac130003
+  - /path1/path2.php: ['5afa38ce-1330-4860-9b03-dfb752dee13b', "/search/کلمه فارسی"]
+targets: [file1.html, file2.rss]
+other: alireza
+dd5219332a114b06b96bb3be93ca981f: "اوکی"
+id: 123456
+api: "/api/v1/"
+text: "some text and number: 123"
+not_a_mail: a@b

@@ -1,0 +1,16 @@
+<p>some text</p>
+test@test.test
+
+(test2@test.test)
+  - email: test3@test.test text
+- uuid: 4b377996-f5d0-11eb-9a03-0242ac130003 text: "some text and number: 123"
+  - /path1/path2.php: '5afa38ce-1330-4860-9b03-dfb752dee13b'
+targets: [/file1.html, file2.rss]
+other: alireza @ 123
+id: 123456
+api: "/api/v1/"
+
+>>>>>>> /این یک مسیر است/search.asp<<<<<<<
+
+<div>not_a_mail: a@b </ div      >
+هاا dd5219332a114b06b96bb3be93ca981f +
