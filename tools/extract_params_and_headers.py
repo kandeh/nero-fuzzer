@@ -49,7 +49,6 @@ def extract(data):
 
         params.add(data['name'])
 
-
     if isinstance(data, dict):
         for sub in data.values():
             extract(sub)

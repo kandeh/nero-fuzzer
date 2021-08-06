@@ -138,6 +138,9 @@ def can_be_path(text):
     if len(text) <= 1 or len(text) > MAX_PATH_LENGTH:
         return False
 
+    if not re.search('[a-zA-Z]', text):
+        return False
+
     if text.count("/") > 1:
         return True
 
@@ -153,6 +156,7 @@ def can_be_path(text):
 
 def can_be_email(text):
     return bool(re.match(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', text))
+
 
 def can_be_uuid(text):
     try:
