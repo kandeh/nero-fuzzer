@@ -7,7 +7,7 @@ from nero.utils import empty_object
 
 class TestYAMLBodyExtractor(unittest.TestCase):
 
-    def test_upper(self):
+    def test_yaml_body_extractor(self):
         with open("./tests/test_data/text.yml", "r") as file:
             text = file.read()
         

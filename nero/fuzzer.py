@@ -15,11 +15,20 @@ from .modules import (
     ServerErrorReporter,
     YAMLBodyExtractor,
     RawBodyExtractor,
+    MethodNotAllowedMutator,
 )
 
 
 class NeroFuzzer:
-
+    HTTP_FUNCS = {
+        "GET": requests.get,
+        "POST": requests.post,
+        "DELETE": requests.delete,
+        "PATCH": requests.patch,
+        "PUT": requests.put,
+        "HEAD": requests.head,
+        "OPTIONS": requests.options,
+    }
     MODULES = [
         DictionaryDiscovery,
         DynamicPathDiscovery,
@@ -30,6 +39,7 @@ class NeroFuzzer:
         ServerErrorReporter,
         YAMLBodyExtractor,
         RawBodyExtractor,
+        MethodNotAllowedMutator,
     ]
 
     def __init__(self, target, static_memory, dynamic_memory, reports):
@@ -77,27 +87,15 @@ class NeroFuzzer:
             request = self.generate_request()
 
             url = f"{self.target}{request.path}"
-            
-            func = None
-
-            if request.method == "GET":
-                func = requests.get
-
-            if request.method == "POST":
-                func = requests.post
-
-            if request.method == "DELETE":
-                func = requests.delete
-
+            func = self.HTTP_FUNCS.get(request.method, None)
             data = {
                 "data": request.data,
                 "headers": request.headers,
                 "cookies": request.cookies,
             }
-
             response = func(url,  allow_redirects=False, **data)
 
-            self.process_response(url, response)
+            self.process_response(request, response)
 
             new_report = self.get_reports(request, response)
             if len(new_report['details']) > 0:

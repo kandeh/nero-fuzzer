@@ -15,16 +15,24 @@ def load_data_from_file(file_path):
             ret.append(line)
     return ret
 
+
 def load_data(data_name):
     return load_data_from_file(f"./data/{data_name}.txt")
 
 
-def uniform(arr):
+def uniform(arr, exclude=[]):
+    """Return a random element from set(arr - exclude)"""
     if len(arr) < 1:
         return None
-    if isinstance(arr, set):
-        arr = tuple(arr)
-    return arr[random.randint(0, len(arr) - 1)]
+
+    if isinstance(arr, list):
+        arr = set(arr)
+
+    if isinstance(exclude, list):
+        exclude = set(exclude)
+
+    candidates = arr.difference(exclude)
+    return random.choice(tuple(candidates))
 
 
 def get_path(url):
@@ -199,3 +207,4 @@ def empty_object():
 # }))
 
 # print(can_be_email("test@test.test"))
+# print(uniform([0, 1, 2, 3], [0, 2]))

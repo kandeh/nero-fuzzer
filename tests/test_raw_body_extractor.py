@@ -7,7 +7,7 @@ from nero.utils import empty_object
 
 class TestRawBodyExtractor(unittest.TestCase):
 
-    def test_upper(self):
+    def test_raw_body_extractor(self):
         with open("./tests/test_data/text.txt", "r") as file:
             text = file.read()
         

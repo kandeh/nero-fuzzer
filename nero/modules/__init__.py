@@ -8,3 +8,4 @@ from .server_error_reporter import ServerErrorReporter
 from .base_data_extractor import BaseDataExtractor
 from .yaml_body_extractor import YAMLBodyExtractor
 from .raw_body_extractor import RawBodyExtractor
+from .method_not_allowed_mutator import MethodNotAllowedMutator
