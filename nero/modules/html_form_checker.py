@@ -1,3 +1,5 @@
+import random
+
 import lxml.html
 
 from .base_module import BaseModule
@@ -18,7 +20,8 @@ class HTMLFormChecker(BaseModule):
         if len(self.forms) < 1:
             return None
 
-        form = uniform(self.forms)
+        random.shuffle(self.forms)
+        form = self.forms.pop()
 
         request = Request()
         request.method = form['method']
@@ -45,7 +48,7 @@ class HTMLFormChecker(BaseModule):
         if len(response.text) < 1:
             return
 
-        doc = lxml.html.fromstring(response.text)
+        doc = lxml.html.fromstring(response.text.encode())
 
         forms = doc.xpath("//form")
         for form in forms:
