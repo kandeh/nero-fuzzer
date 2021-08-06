@@ -10,11 +10,11 @@ All_METHODS = [
     "OPTIONS",
 ]
 
+# TODO: application/yaml
 ALL_CONTENT_TYPES = [
     "application/json",
     "multipart/form-data",
     "application/x-www-form-urlencoded",
-    "application/yaml",
 ]
 
 class Request:

@@ -1,4 +1,5 @@
 import os
+import urllib
 
 import requests
 
@@ -89,12 +90,23 @@ class NeroFuzzer:
             request = self.generate_request()
 
             url = f"{self.target}{request.path}"
+
+            if request.params != {}:
+                url = f"{url}?{urllib.parse.urlencode(request.params)}"
+
             func = self.HTTP_FUNCS.get(request.method, None)
             data = {
-                "data": request.data,
                 "headers": request.headers,
                 "cookies": request.cookies,
             }
+
+            data['headers']['Content-Type'] = request.content_type
+
+            if request.content_type == "application/json":
+                data["json"] = request.data
+            else:
+                data["data"] = request.data
+
             response = func(url,  allow_redirects=False, **data)
 
             self.process_response(request, response)
