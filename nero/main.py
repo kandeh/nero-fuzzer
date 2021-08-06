@@ -12,6 +12,7 @@ reports = []
 static_memory = Memory()
 dynamic_memory = Memory()
 
+static_memory.add_many("param", load_data("params"))
 static_memory.add_many("email", load_data("emails"))
 static_memory.add_many("username", load_data("usernames"))
 static_memory.add_many("password", load_data("passwords"))

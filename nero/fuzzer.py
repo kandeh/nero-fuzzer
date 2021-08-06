@@ -16,6 +16,7 @@ from .modules import (
     YAMLBodyExtractor,
     RawBodyExtractor,
     MethodNotAllowedMutator,
+    BadRequestRetry,
 )
 
 
@@ -40,6 +41,7 @@ class NeroFuzzer:
         YAMLBodyExtractor,
         RawBodyExtractor,
         MethodNotAllowedMutator,
+        BadRequestRetry,
     ]
 
     def __init__(self, target, static_memory, dynamic_memory, reports):

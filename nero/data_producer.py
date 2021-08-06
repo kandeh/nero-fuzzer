@@ -19,7 +19,8 @@ class DataProducer:
 
     
     def add_source(self, data_source):
-        self.data_sources.append(data_source)
+        if data_source != None:
+            self.data_sources.append(data_source)
 
 
     def get_similar_labels(self, label):

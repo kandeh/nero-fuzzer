@@ -10,6 +10,12 @@ All_METHODS = [
     "OPTIONS",
 ]
 
+ALL_CONTENT_TYPES = [
+    "application/json",
+    "multipart/form-data",
+    "application/x-www-form-urlencoded",
+    "application/yaml",
+]
 
 class Request:
     def __init__(self):
@@ -19,3 +25,4 @@ class Request:
         self.headers = {}
         self.cookies = {}
         self.data = {}
+        self.content_type = None
