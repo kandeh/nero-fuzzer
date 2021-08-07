@@ -18,6 +18,8 @@ from .modules import (
     RawBodyExtractor,
     MethodNotAllowedMutator,
     BadRequestRetry,
+    JsonAndYamlParamExtractor,
+    HTMLParamExtractor,
 )
 
 
@@ -43,6 +45,8 @@ class NeroFuzzer:
         RawBodyExtractor,
         MethodNotAllowedMutator,
         BadRequestRetry,
+        JsonAndYamlParamExtractor,
+        HTMLParamExtractor,
     ]
 
     def __init__(self, target, static_memory, dynamic_memory, reports):
@@ -60,8 +64,10 @@ class NeroFuzzer:
 
     def get_reports(self, request, response):
         ret = {
-            "url": response.url,
             "method": request.method,
+            "url": response.url,
+            "params": request.params,
+            "data": request.data,
             "status_code": response.status_code,
             "details": [],
         }

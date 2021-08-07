@@ -1,4 +1,5 @@
 import re
+import string
 
 from nero.modules import BaseDataExtractor
 from nero.utils import get_all_data

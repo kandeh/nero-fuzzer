@@ -22,3 +22,4 @@ api: "/api/v1/"
 /user/name@test.test/
 /new//test/
 /new2/test2}/
+testName

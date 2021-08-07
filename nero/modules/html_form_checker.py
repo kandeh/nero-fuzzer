@@ -25,7 +25,7 @@ class HTMLFormChecker(BaseModule):
 
         request = Request()
         request.method = form['method']
-        request.path = form['url']
+        request.path = form['action']
         request.cookies = {**self.dynamic_memory.get_random_full_cookies(), **form['cookies']}
 
         data = {}
@@ -60,8 +60,8 @@ class HTMLFormChecker(BaseModule):
                 "cookies": {},
             }
 
-            if data['action'] != None:
-                data['url'] = data['url'] + data['action']
+            if data['action'] == None:
+                data['action'] = data['url']
 
             for co in response.cookies:
                 data['cookies'][co.name] = co.value
@@ -75,5 +75,8 @@ class HTMLFormChecker(BaseModule):
                     else:
                         # TODO: ?
                         pass
+                else:
+                    pass
+                    # TODO: ?
 
             self.forms.append(data)

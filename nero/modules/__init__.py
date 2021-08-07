@@ -10,3 +10,5 @@ from .yaml_body_extractor import YAMLBodyExtractor
 from .raw_body_extractor import RawBodyExtractor
 from .method_not_allowed_mutator import MethodNotAllowedMutator
 from .bad_request_retry import BadRequestRetry
+from .json_and_yaml_param_extractor import JsonAndYamlParamExtractor
+from .html_param_extractor import HTMLParamExtractor

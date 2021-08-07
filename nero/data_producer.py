@@ -15,7 +15,8 @@ class DataProducer:
     ]
 
     def __init__(self):
-        self.data_sources = ["random"]
+        # self.data_sources = ["random"]
+        self.data_sources = []
 
     
     def add_source(self, data_source):
