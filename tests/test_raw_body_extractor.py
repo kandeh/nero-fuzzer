@@ -19,7 +19,7 @@ class TestRawBodyExtractor(unittest.TestCase):
 
         self.assertListEqual(
             sorted(list(dynamic_memory.data['email'])),
-            sorted(['test2@test.test', 'test3@test.test', 'test@test.test'])
+            sorted(['test2@test.test', 'test3@test.test', 'test@test.test', "name@test.test"])
         )
 
         self.assertListEqual(
@@ -28,7 +28,8 @@ class TestRawBodyExtractor(unittest.TestCase):
                 "/path1/path2.php",
                 "/file1.html",
                 "/api/v1/",
-                "/این یک مسیر است/search.asp"
+                "/این یک مسیر است/search.asp",
+                "/user/name@test.test/",
                 
                 # TODO:
                 # "/file2.rss",

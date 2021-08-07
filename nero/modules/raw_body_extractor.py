@@ -21,7 +21,7 @@ class RawBodyExtractor(BaseDataExtractor):
         data.update(re.findall(r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+", text))
         
         # path
-        data.update(re.findall(r"(/[^\]\[\(\)\\\n><:\'\",]+)+", text))
+        data.update(re.findall(r"(/[^\]\[\(\)\\\n><:\'\"!#$^&*`~+,|=]+)+", text))
 
         # uuid
         # https://stackoverflow.com/questions/136505/searching-for-uuids-in-text-with-regex

@@ -51,8 +51,8 @@ class BadRequestRetry(BaseModule):
             field_value = producer.get(field_name)
             all_fields.append((field_name, field_value))
         
-        n_params = random.randint(0, 20)
-        n_data = random.randint(0, 20)
+        n_params = random.randint(0, 100)
+        n_data = random.randint(0, 100)
 
         ret.params = {}
         ret.data = {}

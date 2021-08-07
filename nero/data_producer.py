@@ -9,8 +9,8 @@ from .utils import uniform, random_string
 class DataProducer:
 
     SIMILAR_LABELS = [
-        ["username", "user", "name", "id", "email"],
-        ["password", "pass", "secret", "token", "credential", "cred"],
+        ["username", "user", "name", "id", "email", "log"],
+        ["password", "pass", "secret", "token", "credential", "cred", "pwd"],
         ["uuid", "id"],
     ]
 

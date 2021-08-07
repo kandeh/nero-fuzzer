@@ -36,6 +36,9 @@ def uniform(arr, exclude=[]):
 
 
 def get_path(url):
+    if url == None:
+        return None
+
     url = url.lstrip("/.")
     url = urlparse(url).path
 
@@ -139,6 +142,12 @@ def can_be_path(text):
         return False
 
     if not re.search('[a-zA-Z]', text):
+        return False
+
+    if text.count("//") > 0:
+        return False
+
+    if text.count("}") != text.count("{"):
         return False
 
     if text.count("/") > 1:

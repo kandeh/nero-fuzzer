@@ -21,7 +21,7 @@ class HTMLFormChecker(BaseModule):
             return None
 
         random.shuffle(self.forms)
-        form = self.forms.pop()
+        form = self.forms[0]
 
         request = Request()
         request.method = form['method']
@@ -40,7 +40,6 @@ class HTMLFormChecker(BaseModule):
             data[form_input[0]] = producer.get(form_input[0])
 
         request.data = data
-
         return request
 
 
@@ -54,7 +53,7 @@ class HTMLFormChecker(BaseModule):
         for form in forms:
             data = {
                 "method": form.method,
-                "action": form.action,
+                "action": get_path(form.action),
                 "url": get_path(response.url),
                 "hidden_inputs": [],
                 "inputs": [],
@@ -71,6 +70,10 @@ class HTMLFormChecker(BaseModule):
                 if inp.type == "hidden":
                     data["hidden_inputs"].append([inp.name, inp.value])
                 if inp.type in ["text", "password"]:
-                    data["inputs"].append([inp.name, None])
+                    if inp.name:
+                        data["inputs"].append([inp.name, None])
+                    else:
+                        # TODO: ?
+                        pass
 
             self.forms.append(data)

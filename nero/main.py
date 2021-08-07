@@ -1,5 +1,6 @@
 import os
 import logging
+import threading
 from urllib.parse import urlparse
 
 from .utils import load_data_from_file, load_data, empty_object
@@ -33,6 +34,8 @@ def get_target():
     
     return f"{target_url.scheme}://{target_url.netloc}"
 
+def run_fuzzer():
+    NeroFuzzer(nero_target, static_memory, dynamic_memory, reports)
 
 if __name__ == "__main__":
     nero_target = get_target()
@@ -53,5 +56,5 @@ if __name__ == "__main__":
     # start web ui
     UI(static_memory, dynamic_memory, reports)
 
-    # start fuzzer
-    NeroFuzzer(nero_target, static_memory, dynamic_memory, reports)
+    for i in range(1):
+        threading.Thread(target=run_fuzzer).start()

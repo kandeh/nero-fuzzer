@@ -17,7 +17,7 @@ class DynamicPathDiscovery(BaseModule):
             return None
 
         request = Request()
-        request.method = uniform(["GET"])
+        request.method = uniform(["GET", "POST", "PUT", "DELETE", "PATCH"])
         request.path = random_path
         request.cookies = self.dynamic_memory.get_random_full_cookies()
 
