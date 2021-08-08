@@ -1,0 +1,6 @@
+X-CSRF-Token
+csrf_token
+x-xsrf-token
+X-CSRF-TOKEN
+x-csrf-token
+X-XSRF-TOKEN

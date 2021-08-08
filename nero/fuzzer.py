@@ -20,6 +20,7 @@ from .modules import (
     BadRequestRetry,
     JsonAndYamlParamExtractor,
     HTMLParamExtractor,
+    FrobiddenRetry,
 )
 
 
@@ -47,6 +48,7 @@ class NeroFuzzer:
         BadRequestRetry,
         JsonAndYamlParamExtractor,
         HTMLParamExtractor,
+        FrobiddenRetry,
     ]
 
     def __init__(self, target, static_memory, dynamic_memory, reports):
@@ -68,6 +70,7 @@ class NeroFuzzer:
             "url": response.url,
             "params": request.params,
             "data": request.data,
+            "cookies": request.cookies,
             "status_code": response.status_code,
             "details": [],
         }
@@ -97,8 +100,7 @@ class NeroFuzzer:
 
             url = f"{self.target}{request.path}"
 
-            if request.params != {}:
-                url = f"{url}?{urllib.parse.urlencode(request.params)}"
+
 
             func = self.HTTP_FUNCS.get(request.method, None)
             data = {
@@ -107,13 +109,25 @@ class NeroFuzzer:
             }
 
             data['headers']['Content-Type'] = request.content_type
+            data['headers']['referer'] = "https://localhost:8043/"
 
-            if request.content_type == "application/json":
+            params = request.params
+
+            if request.method == "GET":
+                params = {**params, **request.data}
+            elif request.content_type == "application/json":
                 data["json"] = request.data
             else:
                 data["data"] = request.data
 
-            response = func(url,  allow_redirects=False, **data)
+            if request.params != {}:
+                url = f"{url}?{urllib.parse.urlencode(params)}"
+
+            try:
+                response = func(url,  allow_redirects=False, **data, verify=False, timeout=5)
+            except Exception as ex:
+                print(ex)
+                continue
 
             self.process_response(request, response)
 

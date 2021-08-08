@@ -19,8 +19,15 @@ AUTH_HEADER_WORDS = [
     "pwd",
 ]
 
+CSRF_HEADER_WORDS = [
+    "csrf",
+    "xsrf",
+]
+
+
 params = set()
 auth_headers = set()
+csrf_headers = set()
 
 
 def extract(data):
@@ -44,6 +51,11 @@ def extract(data):
             for sub in AUTH_HEADER_WORDS:
                 if sub in data['name'].lower():
                     auth_headers.add(data['name'])
+                    break
+
+            for sub in CSRF_HEADER_WORDS:
+                if sub in data['name'].lower():
+                    csrf_headers.add(data['name'])
                     break
             return
 
@@ -74,4 +86,8 @@ with open("../data/params.txt", "w") as file:
 
 with open("../data/auth_headers.txt", "w") as file:
     for header in auth_headers:
+        print(header, file=file)
+
+with open("../data/csrf_headers.txt", "w") as file:
+    for header in csrf_headers:
         print(header, file=file)

@@ -1,7 +1,7 @@
 import re
 
 from .base_module import BaseModule
-from nero.request import Request
+from nero.request import Request, ALL_CONTENT_TYPES
 from nero.utils import (
     uniform,
     get_path,
@@ -19,6 +19,15 @@ class DynamicPathDiscovery(BaseModule):
         ".jpeg",
         ".ttf",
         ".pdf",
+        ".ico",
+        ".svg",
+        ".woff",
+        ".woff2",
+        ".eot",
+        ".zip",
+        ".rar",
+        ".rar",
+        ".tar.gz",
     ]
 
     def __init__(self, static_memory, dynamic_memory):
@@ -33,7 +42,7 @@ class DynamicPathDiscovery(BaseModule):
 
         for path in all_paths:
             for suf in self.IGNORE_SUFFIX:
-                if path.endswith(suf):
+                if path.endswith(suf) or path.endswith(suf + "/"):
                     ignore.add(path)
 
         random_path = uniform(all_paths, ignore)
@@ -43,6 +52,7 @@ class DynamicPathDiscovery(BaseModule):
         request = Request()
         request.method = uniform(["GET", "POST", "PUT", "DELETE", "PATCH"])
         request.path = random_path
+        request.content_type = uniform(ALL_CONTENT_TYPES)
         request.cookies = self.dynamic_memory.get_random_full_cookies()
 
         if random_path.endswith(".js") and request.method == "GET":

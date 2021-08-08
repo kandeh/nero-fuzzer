@@ -83,5 +83,5 @@ class BadRequestRetry(BaseModule):
 
 
     def process_response(self, request, response):
-        if response.status_code == 400:
+        if response.status_code in [400, 415, 422]:
             self.requests.append(copy.copy(request))
