@@ -16,7 +16,8 @@ class UI:
         self.app.add_url_rule('/dynamic_memory', 'dynamic_memory', self.dynamic_memory_view)
         self.app.add_url_rule('/reports', 'reports', self.reports_view)
 
-        threading.Thread(target=self.app.run).start()
+        thread = threading.Thread(target=self.app.run)
+        thread.start()
 
 
     def index_view(self):

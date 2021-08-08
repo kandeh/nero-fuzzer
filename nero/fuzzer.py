@@ -1,5 +1,6 @@
 import os
 import urllib
+import multiprocessing
 
 import requests
 
@@ -23,17 +24,45 @@ from .modules import (
     FrobiddenRetry,
 )
 
+HTTP_FUNCS = {
+    "GET": requests.get,
+    "POST": requests.post,
+    "DELETE": requests.delete,
+    "PATCH": requests.patch,
+    "PUT": requests.put,
+    "HEAD": requests.head,
+    "OPTIONS": requests.options,
+}
+
+def send(request):
+    url = f"{request.target}{request.path}"
+
+    func = HTTP_FUNCS.get(request.method, None)
+    data = {
+        "headers": request.headers,
+        "cookies": request.cookies,
+    }
+
+    data['headers']['Content-Type'] = request.content_type
+    data['headers']['referer'] = request.target
+
+    params = request.params
+
+    if request.method == "GET":
+        params = {**params, **request.data}
+    elif request.content_type == "application/json":
+        data["json"] = request.data
+    else:
+        data["data"] = request.data
+
+    if request.params != {}:
+        url = f"{url}?{urllib.parse.urlencode(params)}"
+
+    response = func(url,  allow_redirects=False, **data, verify=False, timeout=5)
+    return response
 
 class NeroFuzzer:
-    HTTP_FUNCS = {
-        "GET": requests.get,
-        "POST": requests.post,
-        "DELETE": requests.delete,
-        "PATCH": requests.patch,
-        "PUT": requests.put,
-        "HEAD": requests.head,
-        "OPTIONS": requests.options,
-    }
+    N_PARALLEL = 4
     MODULES = [
         DictionaryDiscovery,
         DynamicPathDiscovery,
@@ -56,6 +85,7 @@ class NeroFuzzer:
         self.static_memory = static_memory
         self.dynamic_memory = dynamic_memory
         self.reports = reports
+        self.process_pool = multiprocessing.Pool(processes=self.N_PARALLEL)
 
         self.modules = []
         for module in self.MODULES:
@@ -96,41 +126,19 @@ class NeroFuzzer:
 
     def run(self):
         while True:
-            request = self.generate_request()
+            requests = []
+            for i in range(self.N_PARALLEL):
+                request = self.generate_request()
+                request.target = self.target
+                requests.append(request)
 
-            url = f"{self.target}{request.path}"
+            responses = self.process_pool.map(send, requests)
 
+            for i in range(len(requests)):
+                request = requests[i]
+                response = responses[i]
 
-
-            func = self.HTTP_FUNCS.get(request.method, None)
-            data = {
-                "headers": request.headers,
-                "cookies": request.cookies,
-            }
-
-            data['headers']['Content-Type'] = request.content_type
-            data['headers']['referer'] = "https://localhost:8043/"
-
-            params = request.params
-
-            if request.method == "GET":
-                params = {**params, **request.data}
-            elif request.content_type == "application/json":
-                data["json"] = request.data
-            else:
-                data["data"] = request.data
-
-            if request.params != {}:
-                url = f"{url}?{urllib.parse.urlencode(params)}"
-
-            try:
-                response = func(url,  allow_redirects=False, **data, verify=False, timeout=5)
-            except Exception as ex:
-                print(ex)
-                continue
-
-            self.process_response(request, response)
-
-            new_report = self.get_reports(request, response)
-            if len(new_report['details']) > 0:
-                self.reports.append(new_report)
+                self.process_response(request, response)
+                new_report = self.get_reports(request, response)
+                if len(new_report['details']) > 0:
+                    self.reports.append(new_report)

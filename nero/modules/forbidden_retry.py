@@ -23,7 +23,6 @@ class FrobiddenRetry(BaseModule):
         csrf_tokens = set()
 
         for cookie_name in request.cookies.keys():
-            print(cookie_name)
             if "csrf" in cookie_name.lower():
                 csrf_tokens.add(request.cookies[cookie_name])
 

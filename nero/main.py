@@ -36,8 +36,6 @@ def get_target():
     
     return f"{target_url.scheme}://{target_url.netloc}"
 
-def run_fuzzer():
-    NeroFuzzer(nero_target, static_memory, dynamic_memory, reports)
 
 if __name__ == "__main__":
     nero_target = get_target()
@@ -55,8 +53,8 @@ if __name__ == "__main__":
             dynamic_memory.add_one("credential", element)
             dynamic_memory.add_one("username", element)
 
-    # start web ui
+    # # start web ui
     UI(static_memory, dynamic_memory, reports)
 
-    for i in range(1):
-        threading.Thread(target=run_fuzzer).start()
+    # start fuzzer
+    NeroFuzzer(nero_target, static_memory, dynamic_memory, reports)
